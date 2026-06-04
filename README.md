@@ -1,0 +1,1 @@
+# historico_precos_nasdaq
