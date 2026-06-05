@@ -1,700 +1,788 @@
-# \# 📊 Dashboard Financeiro - Dados Históricos de Ações NASDAQ
+```markdown
 
-# 
+\# 📊 Financial Data Pipeline — NASDAQ Historical Stock Data
 
-# !\[Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 
-# !\[Yahoo Finance](https://img.shields.io/badge/Yahoo%20Finance-API-green.svg)
 
-# !\[License](https://img.shields.io/badge/License-MIT-yellow.svg)
+\[!\[Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat\&logo=python\&logoColor=white)](https://www.python.org/)
 
-# 
+\[!\[Yahoo Finance](https://img.shields.io/badge/Data%20Source-Yahoo%20Finance-6001D2?style=flat\&logo=yahoo\&logoColor=white)](https://finance.yahoo.com/)
 
-# Sistema completo para download, processamento e análise de dados históricos de ações listadas na NASDAQ. O pipeline coleta cotações (OHLCV), dividendos, valor de mercado e calcula \*\*55+ indicadores técnicos\*\* avançados.
+\[!\[License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-# 
+\[!\[Google Colab](https://img.shields.io/badge/Google%20Colab-Ready-F9AB00?style=flat\&logo=googlecolab\&logoColor=white)](https://colab.research.google.com/)
 
-# \---
 
-# 
 
-# \## 📁 Estrutura do Projeto
+A comprehensive Python pipeline for downloading, processing and analyzing historical stock market data from NASDAQ-listed companies. Extracts OHLCV prices, dividend history, market capitalization, and computes \*\*55+ technical indicators\*\* organized in a structured directory hierarchy.
 
-# 
 
-# ```
 
-# .
+\---
 
-# ├── data/
 
-# │   └── nasdaq-listed-symbols.csv    # Lista de símbolos NASDAQ
 
-# │
+\## 📋 Table of Contents
 
-# ├── scripts/
 
-# │   ├── download\_cotacoes.py         # Download de cotações OHLCV
 
-# │   ├── download\_indicadores.py      # Cálculo de indicadores técnicos
+\- \[Project Structure](#-project-structure)
 
-# │   └── pipeline\_completo.py         # Pipeline unificado
+\- \[Key Features](#-key-features)
 
-# │
+\- \[Quick Start](#-quick-start)
 
-# ├── historicos/
+\- \[Data Dictionary](#-data-dictionary)
 
-# │   ├── cotacoes/                    # Preços OHLCV
+&#x20; - \[Stock Prices](#stock-prices)
 
-# │   │   └── {SIMBOLO}.csv
+&#x20; - \[Dividends \& Corporate Actions](#dividends--corporate-actions)
 
-# │   ├── dividendos/                  # Dividendos + métricas
+&#x20; - \[Market Capitalization](#market-capitalization)
 
-# │   │   └── {SIMBOLO}.csv
+&#x20; - \[Technical Indicators](#technical-indicators)
 
-# │   ├── valor\_mercado/               # Market Cap histórico
+\- \[Usage Examples](#-usage-examples)
 
-# │   │   └── {SIMBOLO}.csv
+\- \[Technical Indicators Reference](#-technical-indicators-reference)
 
-# │   └── indicadores/
+\- \[Limitations](#-limitations)
 
-# │       ├── rsi/                     # RSI (7 e 14 períodos)
+\- \[License](#-license)
 
-# │       │   └── {SIMBOLO}.csv
 
-# │       ├── macd/                    # MACD
 
-# │       │   └── {SIMBOLO}.csv
+\---
 
-# │       ├── bollinger/               # Bandas de Bollinger
 
-# │       │   └── {SIMBOLO}.csv
 
-# │       ├── fibonacci/               # Fibonacci Retracement
+\## 📁 Project Structure
 
-# │       │   └── {SIMBOLO}.csv
 
-# │       ├── medias\_moveis/           # Médias Móveis
 
-# │       │   └── {SIMBOLO}.csv
+```
 
-# │       ├── volatilidade/            # Volatilidade e Retornos
+financial-data-pipeline/
 
-# │       │   └── {SIMBOLO}.csv
+│
 
-# │       └── tendencia/               # Tendências e Sinais
+├── data/
 
-# │           └── {SIMBOLO}.csv
+│   └── nasdaq-listed-symbols.csv        # NASDAQ ticker symbols
 
-# │
+│
 
-# ├── resumo\_dividendos.csv            # Consolidado de dividendos
+├── scripts/
 
-# ├── resumo\_valor\_mercado.csv         # Consolidado de market cap
+│   ├── download\_cotacoes.py             # OHLCV price downloader
 
-# ├── symbols\_valid.csv                # Símbolos processados
+│   ├── download\_indicadores.py          # Technical indicators calculator
 
-# └── README.md
+│   └── pipeline\_completo.py             # Unified extraction pipeline
 
-# ```
+│
 
-# 
+├── historicos/
 
-# \---
+│   ├── cotacoes/                        # Daily OHLCV prices
 
-# 
+│   │   └── {TICKER}.csv
 
-# \## 🚀 Funcionalidades
+│   ├── dividendos/                      # Dividend history \& metrics
 
-# 
+│   │   └── {TICKER}.csv
 
-# \### 1. Download de Cotações Históricas
+│   ├── valor\_mercado/                   # Historical market cap
 
-# \- \*\*Preços OHLCV\*\*: Open, High, Low, Close, Adj Close, Volume
+│   │   └── {TICKER}.csv
 
-# \- \*\*Período configurável\*\*: Padrão 2016 até data atual
+│   └── indicadores/
 
-# \- \*\*Escalabilidade\*\*: Suporte a 5.000+ símbolos NASDAQ
+│       ├── rsi/                         # Relative Strength Index
 
-# \- \*\*Precisão\*\*: Preços com 2 casas decimais, Volume como inteiro
+│       ├── macd/                        # MACD
 
-# 
+│       ├── bollinger/                   # Bollinger Bands
 
-# \### 2. Dividendos e Proventos
+│       ├── fibonacci/                   # Fibonacci Retracement
 
-# \- Histórico completo de pagamentos de dividendos
+│       ├── medias\_moveis/               # Moving Averages
 
-# \- Dividend Yield, Dividend Rate, Payout Ratio
+│       ├── volatilidade/                # Volatility \& Returns
 
-# \- Total de dividendos nos últimos 12 meses
+│       └── tendencia/                   # Trends \& Signals
 
-# \- Número de pagamentos no ano
+│
 
-# \- Próxima data ex-dividendo
+├── resumo\_dividendos.csv                # Consolidated dividend summary
 
-# \- Histórico de desdobramentos (Stock Splits)
+├── resumo\_valor\_mercado.csv             # Consolidated market cap
 
-# 
+└── symbols\_valid.csv                    # Successfully processed tickers
 
-# \### 3. Valor de Mercado Histórico
+```
 
-# \- \*\*Market Cap\*\* = Close × Shares Outstanding (diário)
 
-# \- Ajuste automático para splits históricos
 
-# \- Volume financeiro negociado (Volume × Close)
+\---
 
-# \- Market Cap em bilhões para facilitar leitura
 
-# \- Variação percentual diária
 
-# 
+\## 🚀 Key Features
 
-# \### 4. Indicadores Técnicos (55+ indicadores)
 
-# 
 
-# \#### 📈 Médias Móveis (`indicadores/medias\_moveis/`)
+\### 📈 Historical Stock Prices
 
-# | Indicador | Período | Uso Principal |
+\- \*\*Full OHLCV\*\*: Open, High, Low, Close, Adjusted Close, Volume
 
-# |-----------|---------|---------------|
+\- \*\*Configurable Range\*\*: Default from 2016-01-01 to present
 
-# | MA\_7 | 7 dias | Tendência de curtíssimo prazo |
+\- \*\*Scalable\*\*: Supports 5,000+ NASDAQ symbols
 
-# | MA\_14 | 14 dias | Tendência de curto prazo |
+\- \*\*Precision\*\*: Prices rounded to 2 decimal places, Volume as integer
 
-# | MA\_30 | 30 dias | Suporte/Resistência mensal |
 
-# | MA\_50 | 50 dias | Tendência de médio prazo |
 
-# | MA\_200 | 200 dias | Tendência de longo prazo |
+\### 💰 Dividends \& Corporate Actions
 
-# | Sinal\_MA\_7\_14 | - | 1 = Cruzamento de alta, -1 = Cruzamento de baixa |
+\- Complete dividend payment history (ex-dividend dates and amounts)
 
-# | Sinal\_MA\_50\_200 | - | 1 = Golden Cross, -1 = Death Cross |
+\- \*\*Dividend Yield\*\*, \*\*Dividend Rate\*\*, \*\*Payout Ratio\*\*
 
-# 
+\- Trailing 12-month total dividends and payment count
 
-# \#### 📉 RSI - Índice de Força Relativa (`indicadores/rsi/`)
+\- Upcoming ex-dividend date
 
-# | Indicador | Período | Uso Principal |
+\- Stock split history with adjustment ratios
 
-# |-----------|---------|---------------|
 
-# | RSI\_7 | 7 períodos | Sinal rápido, mais sensível a mudanças |
 
-# | RSI\_14 | 14 períodos | Padrão do mercado |
+\### 🏢 Market Capitalization
 
-# | RSI\_Sinal | - | Acima de 70 = Sobrecomprado (vender) |
+\- \*\*Daily Market Cap\*\* = Closing Price × Shares Outstanding
 
-# | | | Abaixo de 30 = Sobrevendido (comprar) |
+\- Automatic adjustment for historical stock splits
 
-# | | | Entre 30-70 = Neutro |
+\- Dollar-denominated trading volume
 
-# 
+\- Market cap in billions for readability
 
-# \#### 📊 MACD (`indicadores/macd/`)
+\- Daily percentage change
 
-# | Indicador | Descrição | Uso Principal |
 
-# |-----------|-----------|---------------|
 
-# | MACD\_Line | Diferença entre EMA 12 e EMA 26 | Linha principal do indicador |
+\### 📊 Technical Indicators (55+ metrics)
 
-# | MACD\_Signal | EMA 9 do MACD | Linha de sinal |
 
-# | MACD\_Histogram | MACD\_Line - MACD\_Signal | Positivo = momentum cresce |
 
-# | | | Negativo = momentum diminui |
+| Category | Indicators | Key Signals |
 
-# | MACD\_Sinal | - | Compra = MACD cruza acima do Sinal |
+|----------|-----------|-------------|
 
-# | | | Venda = MACD cruza abaixo do Sinal |
+| \*\*Moving Averages\*\* | MA-7, MA-14, MA-30, MA-50, MA-200 | Golden Cross / Death Cross |
 
-# 
+| \*\*RSI\*\* | RSI-7, RSI-14 | Overbought (>70) / Oversold (<30) |
 
-# \#### 🎯 Bandas de Bollinger (`indicadores/bollinger/`)
+| \*\*MACD\*\* | MACD Line, Signal Line, Histogram | Bullish / Bearish Crossovers |
 
-# | Indicador | Descrição | Uso Principal |
+| \*\*Bollinger Bands\*\* | Upper, Middle, Lower, Bandwidth | Price at Upper/Lower Band |
 
-# |-----------|-----------|---------------|
+| \*\*Fibonacci\*\* | 9 Retracement Levels (0% to 161.8%) | Support/Resistance Zones, Confluence |
 
-# | BB\_Upper | Média + 2 desvios padrão | Resistência dinâmica |
+| \*\*Volatility\*\* | Daily Returns, 20-Day Volatility, Range, Gap | Volume Ratio, Gap Analysis |
 
-# | BB\_Middle | Média Móvel de 20 dias | Linha central |
+| \*\*Trend\*\* | 7-Day \& 50-Day Direction, Trend Strength | Consecutive Bullish Candles |
 
-# | BB\_Lower | Média - 2 desvios padrão | Suporte dinâmico |
 
-# | BB\_Width | Largura das bandas (%) | Baixo = consolidação |
 
-# | | | Alto = volatilidade elevada |
+\---
 
-# | BB\_Position | 0 a 1 | 0 = Banda inferior, 1 = Banda superior |
 
-# | BB\_Sinal | - | Preço na Upper = Sobrecomprado |
 
-# | | | Preço na Lower = Sobrevendido |
+\## 🔧 Quick Start
 
-# 
 
-# \#### 🔢 Fibonacci Retracement (`indicadores/fibonacci/`)
 
-# | Indicador | Nível | Uso Principal |
+\### Prerequisites
 
-# |-----------|-------|---------------|
 
-# | Fib\_0 | 0% | Suporte (fundo da tendência) |
 
-# | Fib\_236 | 23.6% | Retração fraca |
+```bash
 
-# | Fib\_382 | 38.2% | Suporte/Resistência moderada |
+pip install yfinance pandas numpy
 
-# | Fib\_50 | 50% | Ponto de equilíbrio |
+```
 
-# | Fib\_618 | 61.8% | \*\*Golden Ratio\*\* - Forte suporte/resistência |
 
-# | Fib\_786 | 78.6% | Retração profunda |
 
-# | Fib\_1 | 100% | Resistência (topo da tendência) |
+\### Installation
 
-# | Fib\_1\_272 | 127.2% | Projeção de extensão |
 
-# | Fib\_1\_618 | 161.8% | \*\*Golden Ratio\*\* - Alvo de projeção |
 
-# | Fib\_Position | 0-2 | 0 = Fundo, 1 = Topo, >1 = Rompimento |
+```bash
 
-# | Fib\_Zone | Texto | Suporte Forte / Suporte / Consolidação / Resistência / Resistência Forte / Rompimento |
+git clone https://github.com/your-username/financial-data-pipeline.git
 
-# | Fib\_Buy\_Signal | 0/1 | Preço tocou suporte (38.2% ou 61.8%) |
+cd financial-data-pipeline
 
-# | Fib\_Sell\_Signal | 0/1 | Preço tocou resistência (78.6% ou 100%) |
+```
 
-# | Fib\_Confluencia | 0-6 | Quantos níveis convergem (≥2 = Forte, ≥4 = Muito Forte) |
 
-# 
 
-# \#### 📊 Volatilidade e Retornos (`indicadores/volatilidade/`)
+\### Basic Usage
 
-# | Indicador | Descrição | Uso Principal |
 
-# |-----------|-----------|---------------|
 
-# | Returns | Retorno diário (%) | Variação percentual do dia |
+```python
 
-# | Returns\_Log | Retorno logarítmico | Para cálculos estatísticos |
+\# Run the complete pipeline
 
-# | Volatilidade\_20 | Volatilidade anualizada (20d) | Alta = risco elevado |
+python scripts/pipeline\_completo.py
 
-# | Range\_Diario | High - Low | Amplitude do movimento |
 
-# | Range\_Percentual | Range / Close × 100 | Volatilidade intradiária (%) |
 
-# | Gap | Open - Close anterior | Força da abertura |
+\# Or run individual components
 
-# | Gap\_Percentual | Gap / Close anterior × 100 | Positivo = força compradora |
+python scripts/download\_cotacoes.py      # Prices only
 
-# | Volume\_Medio\_20 | Média de volume 20 dias | Linha base de volume |
+python scripts/download\_indicadores.py   # Indicators only
 
-# | Volume\_Ratio | Volume / Volume\_Medio\_20 | >1.5 = volume anormal |
+```
 
-# 
 
-# \#### 🔍 Tendências e Sinais (`indicadores/tendencia/`)
 
-# | Indicador | Descrição | Uso Principal |
+\### Configuration
 
-# |-----------|-----------|---------------|
 
-# | Tendencia\_7d | Alta/Baixa | Close vs MA7 |
 
-# | Tendencia\_50d | Alta/Baixa | Close vs MA50 |
+Edit the following parameters in any script:
 
-# | Forca\_Tendencia | Inclinação da MA50 em 5 dias (%) | Positivo = acelerando alta |
 
-# | Forca\_Movimento | (Close-Open)/(High-Low) | 1 = Fechou na máxima |
 
-# | | | -1 = Fechou na mínima |
+```python
 
-# | Velas\_Alta\_Consecutivas | Contagem | ≥3 = tendência consolidada |
+offset = 0              # Starting index in symbol list
 
-# 
+limit = 100             # Number of symbols to process
 
-# \---
+start\_date = '2016-01-01'  # Historical start date
 
-# 
+```
 
-# \## 📊 Dicionário de Dados Completo
 
-# 
 
-# \### Cotações (`historicos/cotacoes/{SIMBOLO}.csv`)
+\---
 
-# | # | Campo | Tipo | Exemplo | Descrição |
 
-# |---|-------|------|---------|-----------|
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão (YYYY-MM-DD) |
+\## 📊 Data Dictionary
 
-# | 2 | Open | Decimal(2) | 185.50 | Preço de abertura do dia |
 
-# | 3 | High | Decimal(2) | 188.75 | Preço máximo do dia |
 
-# | 4 | Low | Decimal(2) | 184.20 | Preço mínimo do dia |
+\### Stock Prices
 
-# | 5 | Close | Decimal(2) | 187.30 | Preço de fechamento do dia |
+\*\*Location:\*\* `historicos/cotacoes/{TICKER}.csv`
 
-# | 6 | Adj Close | Decimal(2) | 187.30 | Preço ajustado (splits/dividendos) |
 
-# | 7 | Volume | Inteiro | 52456700 | Quantidade de ações negociadas |
 
-# 
+| # | Field | Type | Example | Description |
 
-# \### Dividendos (`historicos/dividendos/{SIMBOLO}.csv`)
+|---|-------|------|---------|-------------|
 
-# | # | Campo | Tipo | Exemplo | Descrição |
+| 1 | `Date` | `date` | 2024-01-15 | Trading day (YYYY-MM-DD) |
 
-# |---|-------|------|---------|-----------|
+| 2 | `Open` | `decimal(2)` | 185.50 | Opening price |
 
-# | 1 | Date | Data | 2024-03-15 | Data do pagamento/evento |
+| 3 | `High` | `decimal(2)` | 188.75 | Highest price of the day |
 
-# | 2 | Dividends | Decimal(4) | 0.2500 | Valor do dividendo pago por ação |
+| 4 | `Low` | `decimal(2)` | 184.20 | Lowest price of the day |
 
-# | 3 | Stock\_Splits | Decimal(4) | 2.0000 | Ratio (2.0 = split 2:1) |
+| 5 | `Close` | `decimal(2)` | 187.30 | Closing price |
 
-# | 4 | Dividend\_Yield | Decimal(2) | 2.50 | Rendimento anual de dividendos (%) |
+| 6 | `Adj Close` | `decimal(2)` | 187.30 | Adjusted close (splits \& dividends) |
 
-# | 5 | Dividend\_Rate | Decimal(2) | 1.00 | Valor anual estimado por ação ($) |
+| 7 | `Volume` | `integer` | 52,456,700 | Shares traded |
 
-# | 6 | Payout\_Ratio | Decimal(2) | 35.00 | % do lucro distribuído como dividendos |
 
-# | 7 | Dividend\_1Y\_Total | Decimal(4) | 1.0000 | Total de dividendos nos últimos 12 meses |
 
-# | 8 | Dividend\_1Y\_Count | Inteiro | 4 | Número de pagamentos no último ano |
+> \*\*Note:\*\* Use `Adj Close` for accurate return calculations as it accounts for corporate actions.
 
-# | 9 | Last\_Dividend | Decimal(4) | 0.2500 | Valor do último dividendo pago |
 
-# | 10 | Ex\_Dividend\_Date | Data | 2024-06-15 | Próxima data ex-dividendo |
 
-# 
+\### Dividends \& Corporate Actions
 
-# \### Valor de Mercado (`historicos/valor\_mercado/{SIMBOLO}.csv`)
+\*\*Location:\*\* `historicos/dividendos/{TICKER}.csv`
 
-# | # | Campo | Tipo | Exemplo | Descrição |
 
-# |---|-------|------|---------|-----------|
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão |
+| # | Field | Type | Example | Description |
 
-# | 2 | Close | Decimal(2) | 187.30 | Preço de fechamento |
+|---|-------|------|---------|-------------|
 
-# | 3 | Shares\_Outstanding | Inteiro | 15500000000 | Ações em circulação |
+| 1 | `Date` | `date` | 2024-03-15 | Event date |
 
-# | 4 | Market\_Cap | Decimal(2) | 2903150000000 | Valor de mercado ($) |
+| 2 | `Dividends` | `decimal(4)` | 0.2500 | Dividend per share |
 
-# | 5 | Market\_Cap\_B | Decimal(2) | 2903.15 | Market Cap em bilhões ($B) |
+| 3 | `Stock\_Splits` | `decimal(4)` | 2.0000 | Split ratio (2.0 = 2:1 split) |
 
-# | 6 | Market\_Cap\_Change\_Pct | Decimal(2) | 1.25 | Variação percentual diária (%) |
+| 4 | `Dividend\_Yield` | `decimal(2)` | 2.50 | Annual dividend yield (%) |
 
-# | 7 | Volume\_Dollar | Decimal(2) | 9825345100 | Volume financeiro negociado ($) |
+| 5 | `Dividend\_Rate` | `decimal(2)` | 1.00 | Estimated annual dividend per share ($) |
 
-# 
+| 6 | `Payout\_Ratio` | `decimal(2)` | 35.00 | Earnings paid as dividends (%) |
 
-# \### Indicadores - RSI (`historicos/indicadores/rsi/{SIMBOLO}.csv`)
+| 7 | `Dividend\_1Y\_Total` | `decimal(4)` | 1.0000 | Total dividends (trailing 12 months) |
 
-# | # | Campo | Tipo | Exemplo | Descrição |
+| 8 | `Dividend\_1Y\_Count` | `integer` | 4 | Number of payments (12 months) |
 
-# |---|-------|------|---------|-----------|
+| 9 | `Last\_Dividend` | `decimal(4)` | 0.2500 | Most recent dividend amount |
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão |
+| 10 | `Ex\_Dividend\_Date` | `date` | 2024-06-15 | Next ex-dividend date |
 
-# | 2 | RSI\_7 | Decimal(2) | 65.32 | RSI de 7 períodos |
 
-# | 3 | RSI\_14 | Decimal(2) | 58.45 | RSI de 14 períodos (padrão) |
 
-# | 4 | RSI\_Sinal | Texto | Neutro | Sobrecomprado/Sobrevendido/Neutro |
+\### Market Capitalization
 
-# 
+\*\*Location:\*\* `historicos/valor\_mercado/{TICKER}.csv`
 
-# \### Indicadores - MACD (`historicos/indicadores/macd/{SIMBOLO}.csv`)
 
-# | # | Campo | Tipo | Exemplo | Descrição |
 
-# |---|-------|------|---------|-----------|
+| # | Field | Type | Example | Description |
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão |
+|---|-------|------|---------|-------------|
 
-# | 2 | MACD\_Line | Decimal(2) | 2.45 | Linha MACD (EMA12 - EMA26) |
+| 1 | `Date` | `date` | 2024-01-15 | Trading day |
 
-# | 3 | MACD\_Signal | Decimal(2) | 1.80 | Linha de Sinal (EMA9 do MACD) |
+| 2 | `Close` | `decimal(2)` | 187.30 | Closing price |
 
-# | 4 | MACD\_Histogram | Decimal(2) | 0.65 | Histograma (MACD - Sinal) |
+| 3 | `Shares\_Outstanding` | `integer` | 15,500,000,000 | Total shares outstanding |
 
-# | 5 | MACD\_Sinal | Texto | Compra | Compra/Neutro/Venda |
+| 4 | `Market\_Cap` | `decimal(2)` | 2,903,150,000,000 | Market capitalization ($) |
 
-# 
+| 5 | `Market\_Cap\_B` | `decimal(2)` | 2903.15 | Market cap in billions ($B) |
 
-# \### Indicadores - Bollinger (`historicos/indicadores/bollinger/{SIMBOLO}.csv`)
+| 6 | `Market\_Cap\_Change\_Pct` | `decimal(2)` | 1.25 | Daily change (%) |
 
-# | # | Campo | Tipo | Exemplo | Descrição |
+| 7 | `Volume\_Dollar` | `decimal(2)` | 9,825,345,100 | Dollar volume traded ($) |
 
-# |---|-------|------|---------|-----------|
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão |
 
-# | 2 | BB\_Upper | Decimal(2) | 195.30 | Banda Superior (+2 desvios) |
+\### Technical Indicators
 
-# | 3 | BB\_Middle | Decimal(2) | 185.00 | Média Móvel 20 dias |
 
-# | 4 | BB\_Lower | Decimal(2) | 174.70 | Banda Inferior (-2 desvios) |
 
-# | 5 | BB\_Width | Decimal(2) | 11.14 | Largura das bandas (%) |
+\#### RSI — Relative Strength Index
 
-# | 6 | BB\_Position | Decimal(2) | 0.65 | Posição (0=Lower, 1=Upper) |
+\*\*Location:\*\* `historicos/indicadores/rsi/{TICKER}.csv`
 
-# | 7 | BB\_Sinal | Texto | Neutro | Sobrecomprado/Sobrevendido/Neutro |
 
-# 
 
-# \### Indicadores - Fibonacci (`historicos/indicadores/fibonacci/{SIMBOLO}.csv`)
+| # | Field | Type | Range/Values | Description |
 
-# | # | Campo | Tipo | Exemplo | Descrição |
+|---|-------|------|--------------|-------------|
 
-# |---|-------|------|---------|-----------|
+| 1 | `Date` | `date` | YYYY-MM-DD | Trading day |
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão |
+| 2 | `RSI\_7` | `decimal(2)` | 0–100 | 7-period RSI (faster signal) |
 
-# | 2 | Fib\_0 | Decimal(2) | 150.00 | Nível 0% (fundo) |
+| 3 | `RSI\_14` | `decimal(2)` | 0–100 | 14-period RSI (standard) |
 
-# | 3 | Fib\_236 | Decimal(2) | 158.50 | Nível 23.6% |
+| 4 | `RSI\_Sinal` | `text` | Sobrecomprado / Neutro / Sobrevendido | >70 = Overbought, <30 = Oversold |
 
-# | 4 | Fib\_382 | Decimal(2) | 163.80 | Nível 38.2% |
 
-# | 5 | Fib\_50 | Decimal(2) | 167.50 | Nível 50% |
 
-# | 6 | Fib\_618 | Decimal(2) | 171.20 | Nível 61.8% (Golden Ratio) |
+\#### MACD — Moving Average Convergence Divergence
 
-# | 7 | Fib\_786 | Decimal(2) | 175.80 | Nível 78.6% |
+\*\*Location:\*\* `historicos/indicadores/macd/{TICKER}.csv`
 
-# | 8 | Fib\_1 | Decimal(2) | 185.00 | Nível 100% (topo) |
 
-# | 9 | Fib\_1\_272 | Decimal(2) | 193.20 | Extensão 127.2% |
 
-# | 10 | Fib\_1\_618 | Decimal(2) | 203.50 | Extensão 161.8% (Golden Ratio) |
+| # | Field | Type | Description |
 
-# | 11 | Fib\_Position | Decimal(2) | 0.65 | Posição relativa (0-2) |
+|---|-------|------|-------------|
 
-# | 12 | Fib\_Level\_Current | Texto | 0.62 | Nível Fibonacci atual |
+| 1 | `Date` | `date` | Trading day |
 
-# | 13 | Fib\_Distance\_Next | Decimal(2) | 0.15 | Distância para próximo nível |
+| 2 | `MACD\_Line` | `decimal(2)` | MACD line (EMA-12 − EMA-26) |
 
-# | 14 | Fib\_Zone | Texto | Resistência | Zona de atuação do preço |
+| 3 | `MACD\_Signal` | `decimal(2)` | Signal line (EMA-9 of MACD) |
 
-# | 15 | Fib\_Buy\_Signal | Inteiro | 0 | 1 = Sinal de compra |
+| 4 | `MACD\_Histogram` | `decimal(2)` | Histogram (MACD − Signal) |
 
-# | 16 | Fib\_Sell\_Signal | Inteiro | 0 | 1 = Sinal de venda |
+| 5 | `MACD\_Sinal` | `text` | Compra (Bullish) / Neutro / Venda (Bearish) |
 
-# 
 
-# \### Indicadores - Médias Móveis (`historicos/indicadores/medias\_moveis/{SIMBOLO}.csv`)
 
-# | # | Campo | Tipo | Exemplo | Descrição |
+\#### Bollinger Bands
 
-# |---|-------|------|---------|-----------|
+\*\*Location:\*\* `historicos/indicadores/bollinger/{TICKER}.csv`
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão |
 
-# | 2 | MA\_7 | Decimal(2) | 186.50 | Média Móvel 7 dias |
 
-# | 3 | MA\_14 | Decimal(2) | 184.30 | Média Móvel 14 dias |
+| # | Field | Type | Description |
 
-# | 4 | MA\_30 | Decimal(2) | 181.20 | Média Móvel 30 dias |
+|---|-------|------|-------------|
 
-# | 5 | MA\_50 | Decimal(2) | 178.50 | Média Móvel 50 dias |
+| 1 | `Date` | `date` | Trading day |
 
-# | 6 | MA\_200 | Decimal(2) | 165.80 | Média Móvel 200 dias |
+| 2 | `BB\_Upper` | `decimal(2)` | Upper band (+2 standard deviations) |
 
-# | 7 | Sinal\_MA\_7\_14 | Inteiro | 1 | 1=MA7>MA14 (alta), -1=MA7<MA14 |
+| 3 | `BB\_Middle` | `decimal(2)` | 20-day Simple Moving Average |
 
-# | 8 | Sinal\_MA\_50\_200 | Inteiro | 1 | 1=Golden Cross, -1=Death Cross |
+| 4 | `BB\_Lower` | `decimal(2)` | Lower band (−2 standard deviations) |
 
-# 
+| 5 | `BB\_Width` | `decimal(2)` | Band width (%) — low = squeeze, high = expansion |
 
-# \### Indicadores - Volatilidade (`historicos/indicadores/volatilidade/{SIMBOLO}.csv`)
+| 6 | `BB\_Position` | `decimal(2)` | 0 = at Lower, 1 = at Upper |
 
-# | # | Campo | Tipo | Exemplo | Descrição |
+| 7 | `BB\_Sinal` | `text` | Sobrecomprado / Neutro / Sobrevendido |
 
-# |---|-------|------|---------|-----------|
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão |
 
-# | 2 | Returns | Decimal(4) | 0.0125 | Retorno diário (1.25%) |
+\#### Fibonacci Retracement
 
-# | 3 | Returns\_Log | Decimal(4) | 0.0124 | Retorno logarítmico |
+\*\*Location:\*\* `historicos/indicadores/fibonacci/{TICKER}.csv`
 
-# | 4 | Volatilidade\_20 | Decimal(2) | 25.30 | Volatilidade anualizada (%) |
 
-# | 5 | Range\_Diario | Decimal(2) | 4.55 | Amplitude (High - Low) |
 
-# | 6 | Range\_Percentual | Decimal(2) | 2.43 | Amplitude percentual (%) |
+| # | Field | Type | Level | Description |
 
-# | 7 | Gap | Decimal(2) | 1.20 | Gap de abertura ($) |
+|---|-------|------|-------|-------------|
 
-# | 8 | Gap\_Percentual | Decimal(2) | 0.64 | Gap percentual (%) |
+| 1 | `Date` | `date` | — | Trading day |
 
-# | 9 | Volume\_Medio\_20 | Inteiro | 48500000 | Volume médio 20 dias |
+| 2 | `Fib\_0` | `decimal(2)` | 0% | Support (swing low) |
 
-# | 10 | Volume\_Ratio | Decimal(2) | 1.08 | Volume / Média (1.08 = 8% acima) |
+| 3 | `Fib\_236` | `decimal(2)` | 23.6% | Shallow retracement |
 
-# 
+| 4 | `Fib\_382` | `decimal(2)` | 38.2% | Moderate support/resistance |
 
-# \### Indicadores - Tendência (`historicos/indicadores/tendencia/{SIMBOLO}.csv`)
+| 5 | `Fib\_50` | `decimal(2)` | 50% | Equilibrium point |
 
-# | # | Campo | Tipo | Exemplo | Descrição |
+| 6 | `Fib\_618` | `decimal(2)` | 61.8% | \*\*Golden Ratio\*\* — Key level |
 
-# |---|-------|------|---------|-----------|
+| 7 | `Fib\_786` | `decimal(2)` | 78.6% | Deep retracement |
 
-# | 1 | Date | Data | 2024-01-15 | Data do pregão |
+| 8 | `Fib\_1` | `decimal(2)` | 100% | Resistance (swing high) |
 
-# | 2 | Tendencia\_7d | Texto | Alta | Direção curto prazo |
+| 9 | `Fib\_1\_272` | `decimal(2)` | 127.2% | Extension projection |
 
-# | 3 | Tendencia\_50d | Texto | Alta | Direção médio prazo |
+| 10 | `Fib\_1\_618` | `decimal(2)` | 161.8% | \*\*Golden Ratio\*\* extension |
 
-# | 4 | Forca\_Tendencia | Decimal(2) | 2.35 | Inclinação MA50 em 5 dias (%) |
+| 11 | `Fib\_Position` | `decimal(2)` | 0–2 | Relative position in the range |
 
-# | 5 | Forca\_Movimento | Decimal(2) | 0.75 | 1=Fechou na máxima, -1=Fechou na mínima |
+| 12 | `Fib\_Level\_Current` | `text` | — | Current Fibonacci level |
 
-# | 6 | Velas\_Alta\_Consecutivas | Inteiro | 3 | Dias consecutivos de alta |
+| 13 | `Fib\_Distance\_Next` | `decimal(2)` | — | Distance to next level |
 
-# 
+| 14 | `Fib\_Zone` | `text` | — | Support / Resistance / Consolidation / Breakout |
 
-# \---
+| 15 | `Fib\_Buy\_Signal` | `integer` | 0/1 | Price touched support (38.2% or 61.8%) |
 
-# 
+| 16 | `Fib\_Sell\_Signal` | `integer` | 0/1 | Price touched resistance (78.6% or 100%) |
 
-# \## 📈 Exemplos de Uso
 
-# 
 
-# \### Análise de Sinais de Compra/Venda
+\#### Moving Averages
 
-# ```python
+\*\*Location:\*\* `historicos/indicadores/medias\_moveis/{TICKER}.csv`
 
-# import pandas as pd
 
-# 
 
-# \# Carregar indicadores
+| # | Field | Type | Period | Description |
 
-# rsi = pd.read\_csv('historicos/indicadores/rsi/AAPL.csv')
+|---|-------|------|--------|-------------|
 
-# macd = pd.read\_csv('historicos/indicadores/macd/AAPL.csv')
+| 1 | `Date` | `date` | — | Trading day |
 
-# fib = pd.read\_csv('historicos/indicadores/fibonacci/AAPL.csv')
+| 2 | `MA\_7` | `decimal(2)` | 7 days | Very short-term trend |
 
-# 
+| 3 | `MA\_14` | `decimal(2)` | 14 days | Short-term trend |
 
-# \# Verificar múltiplos sinais alinhados
+| 4 | `MA\_30` | `decimal(2)` | 30 days | Monthly support/resistance |
 
-# sinais\_compra = (
+| 5 | `MA\_50` | `decimal(2)` | 50 days | Medium-term trend |
 
-# &#x20;   (rsi\['RSI\_Sinal'].iloc\[-1] == 'Sobrevendido') \&
+| 6 | `MA\_200` | `decimal(2)` | 200 days | Long-term trend |
 
-# &#x20;   (macd\['MACD\_Sinal'].iloc\[-1] == 'Compra') \&
+| 7 | `Sinal\_MA\_7\_14` | `integer` | — | 1 = Bullish crossover, −1 = Bearish |
 
-# &#x20;   (fib\['Fib\_Buy\_Signal'].iloc\[-1] == 1)
+| 8 | `Sinal\_MA\_50\_200` | `integer` | — | 1 = Golden Cross, −1 = Death Cross |
 
-# )
 
-# 
 
-# if sinais\_compra:
+\#### Volatility \& Returns
 
-# &#x20;   print("✅ Múltiplos sinais de COMPRA alinhados!")
+\*\*Location:\*\* `historicos/indicadores/volatilidade/{TICKER}.csv`
 
-# ```
 
-# 
 
-# \### Identificar Ações com Golden Cross Recente
+| # | Field | Type | Description |
 
-# ```python
+|---|-------|------|-------------|
 
-# import os
+| 1 | `Date` | `date` | Trading day |
 
-# 
+| 2 | `Returns` | `decimal(4)` | Daily return (%) |
 
-# golden\_cross\_stocks = \[]
+| 3 | `Returns\_Log` | `decimal(4)` | Logarithmic return |
 
-# for arquivo in os.listdir('historicos/indicadores/medias\_moveis/'):
+| 4 | `Volatilidade\_20` | `decimal(2)` | Annualized 20-day volatility (%) |
 
-# &#x20;   df = pd.read\_csv(f'historicos/indicadores/medias\_moveis/{arquivo}')
+| 5 | `Range\_Diario` | `decimal(2)` | Daily range (High − Low) |
 
-# &#x20;   if df\['Sinal\_MA\_50\_200'].iloc\[-1] == 1 and df\['Sinal\_MA\_50\_200'].iloc\[-2] == -1:
+| 6 | `Range\_Percentual` | `decimal(2)` | Daily range (%) |
 
-# &#x20;       golden\_cross\_stocks.append(arquivo.replace('.csv', ''))
+| 7 | `Gap` | `decimal(2)` | Opening gap ($) |
 
-# 
+| 8 | `Gap\_Percentual` | `decimal(2)` | Opening gap (%) |
 
-# print(f"Ações com Golden Cross recente: {golden\_cross\_stocks}")
+| 9 | `Volume\_Medio\_20` | `integer` | 20-day average volume |
 
-# ```
+| 10 | `Volume\_Ratio` | `decimal(2)` | Volume / Average (>1.5 = abnormal) |
 
-# 
 
-# \---
 
-# 
+\#### Trends \& Signals
 
-# \## 🛠️ Tecnologias Utilizadas
+\*\*Location:\*\* `historicos/indicadores/tendencia/{TICKER}.csv`
 
-# 
 
-# \- \*\*Python 3.8+\*\* - Linguagem principal
 
-# \- \*\*yfinance\*\* - API do Yahoo Finance
+| # | Field | Type | Description |
 
-# \- \*\*pandas\*\* - Manipulação de dados
+|---|-------|------|-------------|
 
-# \- \*\*numpy\*\* - Cálculos numéricos
+| 1 | `Date` | `date` | Trading day |
 
-# \- \*\*Google Colab\*\* - Execução em nuvem (opcional)
+| 2 | `Tendencia\_7d` | `text` | Short-term direction (Alta/Baixa) |
 
-# 
+| 3 | `Tendencia\_50d` | `text` | Medium-term direction (Alta/Baixa) |
 
-# \---
+| 4 | `Forca\_Tendencia` | `decimal(2)` | 5-day MA-50 slope (%) |
 
-# 
+| 5 | `Forca\_Movimento` | `decimal(2)` | 1 = Closed at high, −1 = Closed at low |
 
-# \## ⚠️ Limitações
+| 6 | `Velas\_Alta\_Consecutivas` | `integer` | Consecutive bullish candles |
 
-# 
 
-# \- \*\*Rate Limit\*\*: Yahoo Finance limita requisições frequentes (\~10/min)
 
-# \- \*\*Dados Gratuitos\*\*: API gratuita tem limitações de acesso
+\---
 
-# \- \*\*Ações Delistadas\*\*: Símbolos antigos podem não ter dados disponíveis
 
-# \- \*\*Market Cap\*\*: Usa shares outstanding atual ajustado por splits históricos
 
-# 
+\## 💻 Usage Examples
 
-# \---
 
-# 
 
-# \## 📝 Licença
+\### Detecting Multiple Buy Signals
 
-# 
 
-# Este projeto está sob a licença MIT.
 
-# 
+```python
 
-# \---
+import pandas as pd
 
-# 
 
-# \*\*⭐ Se este projeto foi útil, considere dar uma estrela no repositório!\*\*
+
+ticker = 'AAPL'
+
+
+
+\# Load indicators
+
+rsi = pd.read\_csv(f'historicos/indicadores/rsi/{ticker}.csv')
+
+macd = pd.read\_csv(f'historicos/indicadores/macd/{ticker}.csv')
+
+fib = pd.read\_csv(f'historicos/indicadores/fibonacci/{ticker}.csv')
+
+
+
+\# Check alignment of buy signals
+
+buy\_signals\_aligned = (
+
+&#x20;   (rsi\['RSI\_Sinal'].iloc\[-1] == 'Sobrevendido') \&
+
+&#x20;   (macd\['MACD\_Sinal'].iloc\[-1] == 'Compra') \&
+
+&#x20;   (fib\['Fib\_Buy\_Signal'].iloc\[-1] == 1)
+
+)
+
+
+
+if buy\_signals\_aligned:
+
+&#x20;   print(f"✅ {ticker}: Multiple BUY signals aligned!")
+
+else:
+
+&#x20;   print(f"⏳ {ticker}: Waiting for signal alignment")
+
+```
+
+
+
+\### Screening for Recent Golden Cross
+
+
+
+```python
+
+import os
+
+import pandas as pd
+
+
+
+golden\_cross\_stocks = \[]
+
+
+
+for file in os.listdir('historicos/indicadores/medias\_moveis/'):
+
+&#x20;   df = pd.read\_csv(f'historicos/indicadores/medias\_moveis/{file}')
+
+&#x20;   
+
+&#x20;   # Detect Golden Cross: MA-50 crossed above MA-200 today
+
+&#x20;   if len(df) >= 2:
+
+&#x20;       yesterday = df\['Sinal\_MA\_50\_200'].iloc\[-2]
+
+&#x20;       today = df\['Sinal\_MA\_50\_200'].iloc\[-1]
+
+&#x20;       
+
+&#x20;       if yesterday == -1 and today == 1:
+
+&#x20;           ticker = file.replace('.csv', '')
+
+&#x20;           golden\_cross\_stocks.append(ticker)
+
+
+
+print(f"🟢 Recent Golden Cross signals: {golden\_cross\_stocks}")
+
+```
+
+
+
+\### Finding Top Dividend Payers
+
+
+
+```python
+
+import pandas as pd
+
+
+
+dividends = pd.read\_csv('resumo\_dividendos.csv')
+
+
+
+\# Top 10 by dividend yield
+
+top\_yield = dividends.nlargest(10, 'dividend\_yield')
+
+print("Top 10 Dividend Yields:")
+
+print(top\_yield\[\['Symbol', 'dividend\_yield', 'total\_dividends\_1y', 'payout\_ratio']])
+
+```
+
+
+
+\---
+
+
+
+\## 🛠️ Technology Stack
+
+
+
+| Technology | Purpose |
+
+|-----------|---------|
+
+| \*\*Python 3.8+\*\* | Core programming language |
+
+| \*\*yfinance\*\* | Yahoo Finance data extraction API |
+
+| \*\*pandas\*\* | Data manipulation and analysis |
+
+| \*\*numpy\*\* | Numerical computations |
+
+| \*\*Google Colab\*\* | Cloud execution environment (optional) |
+
+
+
+\---
+
+
+
+\## ⚠️ Limitations
+
+
+
+\- \*\*API Rate Limiting\*\*: Yahoo Finance restricts request frequency (\~10 requests/minute on free tier)
+
+\- \*\*Data Coverage\*\*: Some delisted or very old symbols may not return data
+
+\- \*\*Market Cap Calculation\*\*: Uses current shares outstanding adjusted backwards through split history
+
+\- \*\*Corporate Actions\*\*: Complex events (spin-offs, mergers) may affect adjusted price accuracy
+
+\- \*\*Real-time Data\*\*: This pipeline focuses on historical end-of-day data only
+
+
+
+\---
+
+
+
+\## 📝 License
+
+
+
+This project is licensed under the MIT License — see the \[LICENSE](LICENSE) file for details.
+
+
+
+\---
+
+
+
+\## 🤝 Contributing
+
+
+
+Contributions are welcome! Feel free to:
+
+
+
+1\. Open issues for bug reports or feature requests
+
+2\. Submit pull requests with improvements
+
+3\. Share ideas for new indicators or data sources
+
+
+
+\---
+
+
+
+<p align="center">
+
+&#x20; <b>⭐ If this project was helpful, please consider giving it a star!</b>
+
+</p>
+
+```
 
