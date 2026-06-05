@@ -1,4 +1,3 @@
-```markdown
 <div align="center">
 
 # 📊 NASDAQ Financial Data Pipeline
