@@ -46,7 +46,7 @@
 
 <table>
 <tr>
-<td width="50%">
+<td width="100%">
 
 ### 📈 Historical Stock Quotes
 - **OHLCV Data**: Open, High, Low, Close, Adj Close, Volume
@@ -67,7 +67,8 @@
 - Dollar volume traded
 
 </td>
-<td width="50%">
+<tr>
+<td width="100%">
 
 ### 🔬 Technical Indicators (55+)
 
@@ -80,8 +81,8 @@
 | **Fibonacci** | 9 retracement levels, Extensions, Confluence |
 | **Volatility** | Returns, Annualized Vol, Range, Gap, Volume Ratio |
 | **Trend** | Direction, Strength, Consecutive Candles |
-
 </td>
+</tr>
 </tr>
 </table>
 
@@ -349,4 +350,3 @@ for file in os.listdir('historicos/indicadores/medias_moveis/'):
 <sub>Built for the quantitative finance community</sub>
 
 </div>
-```
