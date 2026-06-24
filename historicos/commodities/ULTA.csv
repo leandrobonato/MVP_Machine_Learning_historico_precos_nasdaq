@@ -1,0 +1,3 @@
+Symbol,commodity,ticker_commodity,descricao,direcao,impacto
+ULTA,Algodao,CT=F,Cotton Futures,positiva,Preço da Cotton Futures positivo influencia o preço da ação na mesma direção
+ULTA,Madeira,LBS=F,Lumber Futures,positiva,Preço da Lumber Futures positivo influencia o preço da ação na mesma direção

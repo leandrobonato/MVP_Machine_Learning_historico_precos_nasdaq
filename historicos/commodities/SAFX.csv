@@ -1,0 +1,2 @@
+Symbol,commodity,ticker_commodity,descricao,direcao,impacto
+SAFX,Gas_Natural,NG=F,Natural Gas Futures,positiva,Preço da Natural Gas Futures positivo influencia o preço da ação na mesma direção

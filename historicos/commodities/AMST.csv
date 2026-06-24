@@ -1,0 +1,6 @@
+Symbol,commodity,ticker_commodity,descricao,direcao,impacto
+AMST,Cobre,HG=F,Copper Futures,positiva,Preço da Copper Futures positivo influencia o preço da ação na mesma direção
+AMST,Ouro,GC=F,Gold Futures,positiva,Preço da Gold Futures positivo influencia o preço da ação na mesma direção
+AMST,Prata,SI=F,Silver Futures,positiva,Preço da Silver Futures positivo influencia o preço da ação na mesma direção
+AMST,Paladio,PA=F,Palladium Futures,positiva,Preço da Palladium Futures positivo influencia o preço da ação na mesma direção
+AMST,Platina,PL=F,Platinum Futures,positiva,Preço da Platinum Futures positivo influencia o preço da ação na mesma direção

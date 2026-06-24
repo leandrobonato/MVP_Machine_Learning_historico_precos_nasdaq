@@ -1,0 +1,5 @@
+Symbol,commodity,ticker_commodity,descricao,direcao,impacto
+QEW,Ouro,GC=F,Gold Futures,positiva,Preço da Gold Futures influencia indiretamente o preço da ação
+QEW,Prata,SI=F,Silver Futures,positiva,Preço da Silver Futures influencia indiretamente o preço da ação
+QEW,Petroleo_WTI,CL=F,Crude Oil WTI Futures,positiva,Preço da Crude Oil WTI Futures influencia indiretamente o preço da ação
+QEW,Cobre,HG=F,Copper Futures,positiva,Preço da Copper Futures influencia indiretamente o preço da ação

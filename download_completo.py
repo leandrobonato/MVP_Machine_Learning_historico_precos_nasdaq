@@ -1,10 +1,10 @@
 """
 ================================================================================
-DOWNLOAD COMPLETO - COTAÇÕES + DIVIDENDOS + MARKET CAP + INDICADORES TÉCNICOS
+DOWNLOAD COMPLETO - COTAÇÕES + DIVIDENDOS + MARKET CAP + FUNDAMENTOS + INFO GERAL + COMMODITIES
 ================================================================================
 Descrição: Pipeline completo de download e processamento de dados financeiros
 Fonte: Yahoo Finance (via yfinance)
-Período: 2016-01-01 até data atual
+Período: 2000-01-01 até data atual
 
 ESTRUTURA DE PASTAS:
 ├── historicos/
@@ -13,6 +13,12 @@ ESTRUTURA DE PASTAS:
 │   ├── dividendos/            # Histórico de dividendos + métricas
 │   │   └── {SIMBOLO}.csv
 │   ├── valor_mercado/         # Market Cap histórico
+│   │   └── {SIMBOLO}.csv
+│   ├── fundamentos/           # Dados fundamentalistas
+│   │   └── {SIMBOLO}.csv
+│   ├── info_geral/            # Informações gerais da empresa
+│   │   └── {SIMBOLO}.csv
+│   ├── commodities/           # Influência de commodities por empresa
 │   │   └── {SIMBOLO}.csv
 │   └── indicadores/
 │       ├── rsi/               # RSI (7 e 14 períodos)
@@ -31,6 +37,9 @@ ESTRUTURA DE PASTAS:
 │           └── {SIMBOLO}.csv
 ├── resumo_dividendos.csv
 ├── resumo_valor_mercado.csv
+├── resumo_fundamentos.csv
+├── resumo_info_geral.csv
+├── resumo_commodities.csv
 └── symbols_valid.csv
 
 ================================================================================
@@ -50,8 +59,343 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 # ============================================
+# Mapeamento de Commodities
+# ============================================
+
+# Lista completa de commodities com tickers, nomes e descrições
+COMMODITIES_LIST = [
+    {'ticker': 'GC=F', 'nome': 'Ouro', 'descricao': 'Gold Futures'},
+    {'ticker': 'SI=F', 'nome': 'Prata', 'descricao': 'Silver Futures'},
+    {'ticker': 'CL=F', 'nome': 'Petroleo_WTI', 'descricao': 'Crude Oil WTI Futures'},
+    {'ticker': 'BZ=F', 'nome': 'Petroleo_Brent', 'descricao': 'Brent Oil Futures'},
+    {'ticker': 'HG=F', 'nome': 'Cobre', 'descricao': 'Copper Futures'},
+    {'ticker': 'ZC=F', 'nome': 'Milho', 'descricao': 'Corn Futures'},
+    {'ticker': 'ZW=F', 'nome': 'Trigo', 'descricao': 'Wheat Futures'},
+    {'ticker': 'ZS=F', 'nome': 'Soja', 'descricao': 'Soybean Futures'},
+    {'ticker': 'KC=F', 'nome': 'Cafe', 'descricao': 'Coffee Futures'},
+    {'ticker': 'CT=F', 'nome': 'Algodao', 'descricao': 'Cotton Futures'},
+    {'ticker': 'SB=F', 'nome': 'Acucar', 'descricao': 'Sugar Futures'},
+    {'ticker': 'NG=F', 'nome': 'Gas_Natural', 'descricao': 'Natural Gas Futures'},
+    {'ticker': 'PL=F', 'nome': 'Platina', 'descricao': 'Platinum Futures'},
+    {'ticker': 'PA=F', 'nome': 'Paladio', 'descricao': 'Palladium Futures'},
+    {'ticker': 'LBS=F', 'nome': 'Madeira', 'descricao': 'Lumber Futures'},
+    {'ticker': 'LB=F', 'nome': 'Chumbo', 'descricao': 'Lead Futures'},
+    {'ticker': 'NI=F', 'nome': 'Niquel', 'descricao': 'Nickel Futures'},
+    {'ticker': 'ZN=F', 'nome': 'Zinco', 'descricao': 'Zinc Futures'},
+    {'ticker': 'ALI=F', 'nome': 'Aluminio', 'descricao': 'Aluminum Futures'},
+]
+
+# Mapeamento de setores para commodities com direção de influência
+# Formato: 'Setor': [('commodity_nome', 'direcao'), ...]
+# direcao: 'positiva' (preço da commodity sobe -> ação sobe) ou 'negativa' (preço da commodity sobe -> ação desce)
+SECTOR_COMMODITY_MAP = {
+    'Energy': [
+        ('Petroleo_WTI', 'positiva'),
+        ('Petroleo_Brent', 'positiva'),
+        ('Gas_Natural', 'positiva'),
+    ],
+    'Oil & Gas': [
+        ('Petroleo_WTI', 'positiva'),
+        ('Petroleo_Brent', 'positiva'),
+        ('Gas_Natural', 'positiva'),
+    ],
+    'Basic Materials': [
+        ('Cobre', 'positiva'),
+        ('Aluminio', 'positiva'),
+        ('Zinco', 'positiva'),
+        ('Niquel', 'positiva'),
+        ('Chumbo', 'positiva'),
+    ],
+    'Metals & Mining': [
+        ('Ouro', 'positiva'),
+        ('Prata', 'positiva'),
+        ('Cobre', 'positiva'),
+        ('Aluminio', 'positiva'),
+        ('Zinco', 'positiva'),
+        ('Niquel', 'positiva'),
+        ('Platina', 'positiva'),
+        ('Paladio', 'positiva'),
+    ],
+    'Gold': [
+        ('Ouro', 'positiva'),
+        ('Prata', 'positiva'),
+    ],
+    'Agriculture': [
+        ('Soja', 'positiva'),
+        ('Milho', 'positiva'),
+        ('Trigo', 'positiva'),
+        ('Cafe', 'positiva'),
+        ('Acucar', 'positiva'),
+        ('Algodao', 'positiva'),
+    ],
+    'Consumer Defensive': [
+        ('Soja', 'positiva'),
+        ('Milho', 'positiva'),
+        ('Trigo', 'positiva'),
+        ('Cafe', 'positiva'),
+        ('Acucar', 'positiva'),
+    ],
+    'Consumer Cyclical': [
+        ('Algodao', 'positiva'),
+        ('Madeira', 'positiva'),
+    ],
+    'Technology': [
+        ('Cobre', 'positiva'),
+        ('Ouro', 'positiva'),
+        ('Prata', 'positiva'),
+        ('Paladio', 'positiva'),
+        ('Platina', 'positiva'),
+    ],
+    'Semiconductors': [
+        ('Cobre', 'positiva'),
+        ('Ouro', 'positiva'),
+        ('Prata', 'positiva'),
+        ('Paladio', 'positiva'),
+        ('Platina', 'positiva'),
+    ],
+    'Automotive': [
+        ('Aluminio', 'positiva'),
+        ('Aco', 'positiva'),
+    ],
+    'Aerospace & Defense': [
+        ('Aluminio', 'positiva'),
+        ('Titanio', 'positiva'),
+    ],
+    'Real Estate': [
+        ('Aco', 'positiva'),
+        ('Cimento', 'positiva'),
+    ],
+    'Construction': [
+        ('Aco', 'positiva'),
+        ('Cimento', 'positiva'),
+        ('Madeira', 'positiva'),
+    ],
+    'Utilities': [
+        ('Gas_Natural', 'positiva'),
+        ('Carvão', 'positiva'),
+    ],
+    'Renewable Energy': [
+        ('Cobre', 'positiva'),
+        ('Aluminio', 'positiva'),
+        ('Lítio', 'positiva'),
+        ('Cobalto', 'positiva'),
+    ],
+    'Airlines': [
+        ('Petroleo_WTI', 'negativa'),
+        ('Petroleo_Brent', 'negativa'),
+    ],
+    'Transportation': [
+        ('Petroleo_WTI', 'negativa'),
+        ('Petroleo_Brent', 'negativa'),
+    ],
+    'Food & Beverage': [
+        ('Soja', 'negativa'),
+        ('Milho', 'negativa'),
+        ('Trigo', 'negativa'),
+        ('Cafe', 'negativa'),
+        ('Acucar', 'negativa'),
+    ],
+}
+
+# ============================================
 # FUNÇÕES AUXILIARES
 # ============================================
+
+def obter_commodities_por_empresa(ticker, setor):
+    """
+    Obtém lista de commodities que influenciam a empresa com base no setor.
+    
+    Retorna uma lista de dicionários com:
+    - commodity: nome da commodity
+    - ticker: ticker da commodity
+    - descricao: descrição da commodity
+    - direcao: 'positiva' ou 'negativa'
+    - impacto: descrição do impacto
+    """
+    commodities_empresa = []
+    
+    # Buscar commodities do setor
+    if setor in SECTOR_COMMODITY_MAP:
+        for comm_nome, direcao in SECTOR_COMMODITY_MAP[setor]:
+            # Encontrar o ticker e descrição da commodity
+            for comm in COMMODITIES_LIST:
+                if comm['nome'] == comm_nome:
+                    impacto = 'positivo' if direcao == 'positiva' else 'negativo'
+                    descricao_impacto = f"Preço da {comm['descricao']} {impacto} influencia o preço da ação na mesma direção" if direcao == 'positiva' else f"Preço da {comm['descricao']} influencia o preço da ação na direção oposta"
+                    
+                    commodities_empresa.append({
+                        'commodity': comm['nome'],
+                        'ticker_commodity': comm['ticker'],
+                        'descricao': comm['descricao'],
+                        'direcao': direcao,
+                        'impacto': descricao_impacto
+                    })
+                    break
+    
+    # Se não encontrou commodities específicas, adicionar genéricas
+    if not commodities_empresa:
+        # Commodities genéricas por tipo de empresa
+        if 'Bank' in setor or 'Financial' in setor:
+            # Bancos e financeiras são influenciados por juros, mas não diretamente por commodities
+            pass
+        elif 'Healthcare' in setor or 'Pharmaceutical' in setor:
+            # Saúde e farmacêuticas têm baixa exposição direta a commodities
+            pass
+        else:
+            # Adicionar commodities genéricas para outros setores
+            for comm in ['Ouro', 'Prata', 'Petroleo_WTI', 'Cobre']:
+                for c in COMMODITIES_LIST:
+                    if c['nome'] == comm:
+                        commodities_empresa.append({
+                            'commodity': c['nome'],
+                            'ticker_commodity': c['ticker'],
+                            'descricao': c['descricao'],
+                            'direcao': 'positiva',
+                            'impacto': f"Preço da {c['descricao']} influencia indiretamente o preço da ação"
+                        })
+                        break
+    
+    return commodities_empresa
+
+def obter_fundamentos(ticker):
+    """
+    Obtém dados fundamentalistas completos do ticker.
+    
+    Retorna um dicionário com:
+    - Margem Líquida
+    - ROE (Return on Equity)
+    - ROA (Return on Assets)
+    - Margem EBITDA
+    - P/L (Preço/Lucro) - histórico
+    - PE (P/L projetado)
+    - P/VPA (Preço/Valor Patrimonial)
+    - EV/EBITDA
+    - EBITDA
+    - DY (Dividend Yield)
+    - Dívida Líquida / EBITDA
+    - Crescimento da Receita (vs. ano anterior)
+    - Crescimento do Lucro (vs. ano anterior)
+    """
+    try:
+        info = ticker.info
+        
+        # Indicadores de Valuation
+        pe_historico = info.get('trailingPE', np.nan)
+        pe_projetado = info.get('forwardPE', np.nan)
+        p_vpa = info.get('priceToBook', np.nan)
+        ev_ebitda = info.get('enterpriseToEbitda', np.nan)
+        
+        # Indicadores de Rentabilidade
+        margem_liquida = info.get('profitMargins', np.nan)
+        if margem_liquida:
+            margem_liquida = margem_liquida * 100
+        
+        roe = info.get('returnOnEquity', np.nan)
+        if roe:
+            roe = roe * 100
+        
+        roa = info.get('returnOnAssets', np.nan)
+        if roa:
+            roa = roa * 100
+        
+        margem_ebitda = info.get('ebitdaMargins', np.nan)
+        if margem_ebitda:
+            margem_ebitda = margem_ebitda * 100
+        
+        # EBITDA e Dívida
+        ebitda = info.get('ebitda', np.nan)
+        divida_liquida = info.get('totalDebt', np.nan)
+        
+        # Calcular Dívida Líquida / EBITDA
+        divida_ebitda = np.nan
+        if not np.isnan(divida_liquida) and not np.isnan(ebitda) and ebitda > 0:
+            divida_ebitda = divida_liquida / ebitda
+        
+        # Dividend Yield (já vem em %)
+        dy = info.get('dividendYield', np.nan)
+        if dy:
+            dy = dy * 100
+        
+        # Crescimento (dados do Yahoo)
+        crescimento_receita = info.get('revenueGrowth', np.nan)
+        if crescimento_receita:
+            crescimento_receita = crescimento_receita * 100
+        
+        crescimento_lucro = info.get('earningsGrowth', np.nan)
+        if crescimento_lucro:
+            crescimento_lucro = crescimento_lucro * 100
+        
+        return {
+            'Margem_Liquida': round(margem_liquida, 2) if not np.isnan(margem_liquida) else np.nan,
+            'ROE': round(roe, 2) if not np.isnan(roe) else np.nan,
+            'ROA': round(roa, 2) if not np.isnan(roa) else np.nan,
+            'Margem_EBITDA': round(margem_ebitda, 2) if not np.isnan(margem_ebitda) else np.nan,
+            'PL_Historico': round(pe_historico, 2) if not np.isnan(pe_historico) else np.nan,
+            'PL_Projetado': round(pe_projetado, 2) if not np.isnan(pe_projetado) else np.nan,
+            'P_VPA': round(p_vpa, 2) if not np.isnan(p_vpa) else np.nan,
+            'EV_EBITDA': round(ev_ebitda, 2) if not np.isnan(ev_ebitda) else np.nan,
+            'EBITDA': round(ebitda, 2) if not np.isnan(ebitda) else np.nan,
+            'DY': round(dy, 2) if not np.isnan(dy) else np.nan,
+            'Divida_Liquida_EBITDA': round(divida_ebitda, 2) if not np.isnan(divida_ebitda) else np.nan,
+            'Crescimento_Receita': round(crescimento_receita, 2) if not np.isnan(crescimento_receita) else np.nan,
+            'Crescimento_Lucro': round(crescimento_lucro, 2) if not np.isnan(crescimento_lucro) else np.nan,
+        }
+    except:
+        return {}
+
+def obter_info_geral(ticker):
+    """
+    Obtém informações gerais da empresa.
+    
+    Retorna um dicionário com:
+    - Nome completo da empresa
+    - País sede (nome completo)
+    - Sigla do país
+    - Setor da empresa
+    """
+    try:
+        info = ticker.info
+        
+        # Nome completo
+        nome = info.get('longName', info.get('shortName', info.get('name', '')))
+        
+        # País
+        pais = info.get('country', '')
+        
+        # Mapeamento de siglas para países comuns
+        siglas_paises = {
+            'United States': 'US', 'USA': 'US', 'America': 'US',
+            'Brazil': 'BR', 'Brasil': 'BR',
+            'United Kingdom': 'UK', 'UK': 'UK', 'England': 'UK',
+            'Germany': 'DE', 'Alemanha': 'DE',
+            'France': 'FR', 'França': 'FR',
+            'Japan': 'JP', 'Japão': 'JP',
+            'China': 'CN', 'China': 'CN',
+            'Canada': 'CA', 'Canadá': 'CA',
+            'Australia': 'AU', 'Austrália': 'AU',
+            'India': 'IN', 'Índia': 'IN',
+            'Switzerland': 'CH', 'Suíça': 'CH',
+            'Netherlands': 'NL', 'Holanda': 'NL',
+            'Spain': 'ES', 'Espanha': 'ES',
+            'Italy': 'IT', 'Itália': 'IT',
+            'South Korea': 'KR', 'Coreia do Sul': 'KR',
+            'Hong Kong': 'HK',
+            'Taiwan': 'TW', 'Taiwan': 'TW',
+            'Singapore': 'SG', 'Singapura': 'SG'
+        }
+        sigla_pais = siglas_paises.get(pais, pais[:2].upper() if pais else '')
+        
+        # Setor
+        setor = info.get('sector', info.get('industry', ''))
+        
+        return {
+            'Nome': nome,
+            'Pais': pais,
+            'Sigla_Pais': sigla_pais,
+            'Setor': setor,
+        }
+    except:
+        return {}
 
 def obter_historico_valor_mercado(ticker, dados_ohlcv):
     """Calcula Market Cap histórico = Close × Shares Outstanding"""
@@ -184,7 +528,7 @@ def formatar_valor_monetario(valor):
     else: return f"${valor:.2f}"
 
 # ============================================
-# INDICADORES TÉCNICOS (mantidos iguais)
+# INDICADORES TÉCNICOS
 # ============================================
 
 def calcular_rsi(series, periodo=14):
@@ -370,7 +714,7 @@ def processar_indicadores(dados):
 
 offset = 0
 limit = 10000
-start_date = '2016-01-01'
+start_date = '2000-01-01'
 end_date = datetime.now().strftime('%Y-%m-%d')
 
 # Criar estrutura de pastas
@@ -378,6 +722,9 @@ PASTAS = {
     'cotacoes': 'historicos/cotacoes',
     'dividendos': 'historicos/dividendos',
     'valor_mercado': 'historicos/valor_mercado',
+    'fundamentos': 'historicos/fundamentos',
+    'info_geral': 'historicos/info_geral',
+    'commodities': 'historicos/commodities',
     'rsi': 'historicos/indicadores/rsi',
     'macd': 'historicos/indicadores/macd',
     'bollinger': 'historicos/indicadores/bollinger',
@@ -399,6 +746,7 @@ for nome, pasta in PASTAS.items():
 # Ler símbolos
 data = pd.read_csv("data/nasdaq-listed-symbols.csv")
 symbols = data['Symbol'].tolist() if 'Symbol' in data.columns else data.iloc[:, 0].tolist()
+#symbols = [s for s in symbols if s == 'AAPL'] #Debug
 
 print("\n" + "=" * 70)
 print("📥 DOWNLOAD COMPLETO")
@@ -411,6 +759,9 @@ end = min(offset + limit, len(symbols))
 valid_symbols = []
 div_info_list = []
 mc_resumo_list = []
+fundamentos_list = []
+info_geral_list = []
+commodities_list = []
 
 for i in range(offset, end):
     s = symbols[i]
@@ -430,6 +781,15 @@ for i in range(offset, end):
             
             # Info dividendos
             info_div = obter_info_dividendos(ticker)
+            
+            # Info fundamentos
+            info_fund = obter_fundamentos(ticker)
+            
+            # Info geral
+            info_geral = obter_info_geral(ticker)
+            
+            # Commodities da empresa
+            commodities_empresa = obter_commodities_por_empresa(s, info_geral.get('Setor', ''))
             
             # Market Cap histórico
             df_mc = obter_historico_valor_mercado(ticker, dados)
@@ -456,7 +816,33 @@ for i in range(offset, end):
                 mc_out[[c for c in cols if c in mc_out.columns]].to_csv(
                     f"{PASTAS['valor_mercado']}/{s}.csv", index=False, float_format='%.2f')
             
-            # ── 4. CALCULAR E SALVAR INDICADORES ──
+            # ── 4. SALVAR FUNDAMENTOS ──
+            if info_fund:
+                df_fund = pd.DataFrame([info_fund])
+                df_fund.insert(0, 'Symbol', s)
+                df_fund.to_csv(f"{PASTAS['fundamentos']}/{s}.csv", index=False, float_format='%.2f')
+                fundamentos_list.append({'Symbol': s, **info_fund})
+            
+            # ── 5. SALVAR INFO GERAL ──
+            if info_geral:
+                df_info = pd.DataFrame([info_geral])
+                df_info.insert(0, 'Symbol', s)
+                df_info.to_csv(f"{PASTAS['info_geral']}/{s}.csv", index=False)
+                info_geral_list.append({'Symbol': s, **info_geral})
+            
+            # ── 6. SALVAR COMMODITIES ──
+            if commodities_empresa:
+                df_comm = pd.DataFrame(commodities_empresa)
+                df_comm.insert(0, 'Symbol', s)
+                df_comm.to_csv(f"{PASTAS['commodities']}/{s}.csv", index=False)
+                for comm in commodities_empresa:
+                    commodities_list.append({
+                        'Symbol': s,
+                        'Setor': info_geral.get('Setor', ''),
+                        **comm
+                    })
+            
+            # ── 7. CALCULAR E SALVAR INDICADORES ──
             indicadores = processar_indicadores(dados)
             for nome, df_ind in indicadores.items():
                 if not df_ind.empty and nome in PASTAS:
@@ -471,7 +857,8 @@ for i in range(offset, end):
             
             mc_str = formatar_valor_monetario(mc_atual)
             div_icon = "💰" if info_div['total_dividends_1y'] > 0 else "  "
-            print(f"✅ {len(dados)}d | {mc_str} | {div_icon} {len(indicadores)} ind")
+            comm_count = len(commodities_empresa)
+            print(f"✅ {len(dados)}d | {mc_str} | {div_icon} {len(indicadores)} ind | 📊 Fund | ℹ️ Info | 🛢️ {comm_count} comm")
         else:
             print(f"⚠️ Sem dados")
     except Exception as e:
@@ -494,6 +881,18 @@ if div_info_list:
 if mc_resumo_list:
     pd.DataFrame(mc_resumo_list).to_csv('resumo_valor_mercado.csv', index=False)
     print(f"✅ resumo_valor_mercado.csv ({len(mc_resumo_list)} ações)")
+
+if fundamentos_list:
+    pd.DataFrame(fundamentos_list).to_csv('resumo_fundamentos.csv', index=False)
+    print(f"✅ resumo_fundamentos.csv ({len(fundamentos_list)} ações)")
+
+if info_geral_list:
+    pd.DataFrame(info_geral_list).to_csv('resumo_info_geral.csv', index=False)
+    print(f"✅ resumo_info_geral.csv ({len(info_geral_list)} ações)")
+
+if commodities_list:
+    pd.DataFrame(commodities_list).to_csv('resumo_commodities.csv', index=False)
+    print(f"✅ resumo_commodities.csv ({len(commodities_list)} registros)")
 
 if valid_symbols:
     pd.DataFrame({'Symbol': valid_symbols}).to_csv('symbols_valid.csv', index=False)

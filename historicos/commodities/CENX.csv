@@ -1,0 +1,6 @@
+Symbol,commodity,ticker_commodity,descricao,direcao,impacto
+CENX,Cobre,HG=F,Copper Futures,positiva,Preço da Copper Futures positivo influencia o preço da ação na mesma direção
+CENX,Aluminio,ALI=F,Aluminum Futures,positiva,Preço da Aluminum Futures positivo influencia o preço da ação na mesma direção
+CENX,Zinco,ZN=F,Zinc Futures,positiva,Preço da Zinc Futures positivo influencia o preço da ação na mesma direção
+CENX,Niquel,NI=F,Nickel Futures,positiva,Preço da Nickel Futures positivo influencia o preço da ação na mesma direção
+CENX,Chumbo,LB=F,Lead Futures,positiva,Preço da Lead Futures positivo influencia o preço da ação na mesma direção

@@ -1171,3 +1171,16 @@ Date,RSI_7,RSI_14,RSI_Sinal
 2026-06-01,6.25,18.10,Sobrevendido
 2026-06-02,4.26,18.10,Sobrevendido
 2026-06-03,10.00,34.29,Neutro
+2026-06-04,14.29,34.29,Neutro
+2026-06-05,14.29,34.29,Neutro
+2026-06-08,25.00,34.78,Neutro
+2026-06-09,50.00,34.78,Neutro
+2026-06-10,100.00,15.09,Sobrevendido
+2026-06-11,100.00,13.46,Sobrevendido
+2026-06-12,,10.00,Sobrevendido
+2026-06-15,,14.29,Sobrevendido
+2026-06-16,100.00,54.55,Neutro
+2026-06-17,100.00,70.59,Sobrecomprado
+2026-06-18,100.00,87.80,Sobrecomprado
+2026-06-22,100.00,100.00,Sobrecomprado
+2026-06-23,100.00,100.00,Sobrecomprado

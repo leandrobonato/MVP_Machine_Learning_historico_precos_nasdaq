@@ -153,7 +153,7 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2021-06-08,Alta,Alta,1.08,-0.07,0
 2021-06-09,Alta,Alta,1.08,-0.35,0
 2021-06-10,Alta,Alta,1.21,0.56,1
-2021-06-11,Alta,Alta,1.21,-0.74,0
+2021-06-11,Alta,Alta,1.21,-0.71,0
 2021-06-14,Alta,Alta,1.14,0.75,1
 2021-06-15,Alta,Alta,1.07,-0.39,0
 2021-06-16,Baixa,Alta,1.00,-0.48,0
@@ -1403,3 +1403,16 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2026-06-01,Alta,Alta,2.35,0.47,1
 2026-06-02,Alta,Alta,2.48,0.81,2
 2026-06-03,Alta,Alta,2.62,-0.89,0
+2026-06-04,Alta,Alta,2.78,0.52,1
+2026-06-05,Baixa,Alta,2.73,-0.88,0
+2026-06-08,Baixa,Alta,2.76,-0.75,0
+2026-06-09,Baixa,Alta,2.67,-0.40,0
+2026-06-10,Baixa,Alta,2.58,-0.74,0
+2026-06-11,Baixa,Alta,2.50,0.80,1
+2026-06-12,Alta,Alta,2.49,0.42,2
+2026-06-15,Alta,Alta,2.51,0.11,3
+2026-06-16,Alta,Alta,2.43,-0.59,0
+2026-06-17,Alta,Alta,2.38,-0.69,0
+2026-06-18,Alta,Alta,2.27,-0.21,0
+2026-06-22,Alta,Alta,2.26,0.11,1
+2026-06-23,Baixa,Alta,2.07,0.22,2

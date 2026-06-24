@@ -1,0 +1,6 @@
+Symbol,commodity,ticker_commodity,descricao,direcao,impacto
+MNTK,Cobre,HG=F,Copper Futures,positiva,Preço da Copper Futures positivo influencia o preço da ação na mesma direção
+MNTK,Aluminio,ALI=F,Aluminum Futures,positiva,Preço da Aluminum Futures positivo influencia o preço da ação na mesma direção
+MNTK,Zinco,ZN=F,Zinc Futures,positiva,Preço da Zinc Futures positivo influencia o preço da ação na mesma direção
+MNTK,Niquel,NI=F,Nickel Futures,positiva,Preço da Nickel Futures positivo influencia o preço da ação na mesma direção
+MNTK,Chumbo,LB=F,Lead Futures,positiva,Preço da Lead Futures positivo influencia o preço da ação na mesma direção

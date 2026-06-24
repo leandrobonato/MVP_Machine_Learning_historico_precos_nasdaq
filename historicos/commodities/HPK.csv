@@ -1,0 +1,4 @@
+Symbol,commodity,ticker_commodity,descricao,direcao,impacto
+HPK,Petroleo_WTI,CL=F,Crude Oil WTI Futures,positiva,Preço da Crude Oil WTI Futures positivo influencia o preço da ação na mesma direção
+HPK,Petroleo_Brent,BZ=F,Brent Oil Futures,positiva,Preço da Brent Oil Futures positivo influencia o preço da ação na mesma direção
+HPK,Gas_Natural,NG=F,Natural Gas Futures,positiva,Preço da Natural Gas Futures positivo influencia o preço da ação na mesma direção
