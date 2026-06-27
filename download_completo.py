@@ -677,7 +677,7 @@ def processar_indicadores(dados):
 
 offset = 0
 limit = 10000
-start_date = '2000-01-01'
+start_date = '2015-01-01'
 end_date = datetime.now().strftime('%Y-%m-%d')
 
 # Criar estrutura de pastas

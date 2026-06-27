@@ -1,0 +1,50 @@
+Symbol,Nome,Pais,Sigla_Pais,Setor
+AAPL,Apple Inc.,United States,US,Technology
+ABNB,"Airbnb, Inc.",United States,US,Consumer Cyclical
+ADBE,Adobe Inc.,United States,US,Technology
+ADI,"Analog Devices, Inc.",United States,US,Technology
+ADP,"Automatic Data Processing, Inc.",United States,US,Technology
+AMAT,"Applied Materials, Inc.",United States,US,Technology
+AMD,"Advanced Micro Devices, Inc.",United States,US,Technology
+AMGN,Amgen Inc.,United States,US,Healthcare
+AMZN,"Amazon.com, Inc.",United States,US,Consumer Cyclical
+AVGO,Broadcom Inc.,United States,US,Technology
+BKNG,Booking Holdings Inc.,United States,US,Consumer Cyclical
+CDNS,"Cadence Design Systems, Inc.",United States,US,Technology
+CHTR,"Charter Communications, Inc.",United States,US,Communication Services
+CMCSA,Comcast Corporation,United States,US,Communication Services
+COST,Costco Wholesale Corporation,United States,US,Consumer Defensive
+CSCO,"Cisco Systems, Inc.",United States,US,Technology
+CSX,CSX Corporation,United States,US,Industrials
+GILD,"Gilead Sciences, Inc.",United States,US,Healthcare
+GOOG,Alphabet Inc.,United States,US,Communication Services
+GOOGL,Alphabet Inc.,United States,US,Communication Services
+HON,Honeywell International Inc.,United States,US,Industrials
+INTC,Intel Corporation,United States,US,Technology
+ISRG,"Intuitive Surgical, Inc.",United States,US,Healthcare
+KDP,Keurig Dr Pepper Inc.,United States,US,Consumer Defensive
+KHC,The Kraft Heinz Company,United States,US,Consumer Defensive
+KLAC,KLA Corporation,United States,US,Technology
+LIN,Linde plc,United Kingdom,UK,Basic Materials
+LRCX,Lam Research Corporation,United States,US,Technology
+MELI,"MercadoLibre, Inc.",Uruguay,UR,Consumer Cyclical
+META,"Meta Platforms, Inc.",United States,US,Communication Services
+MPWR,"Monolithic Power Systems, Inc.",United States,US,Technology
+MRNA,"Moderna, Inc.",United States,US,Healthcare
+MRVL,"Marvell Technology, Inc.",United States,US,Technology
+MSFT,Microsoft Corporation,United States,US,Technology
+MU,"Micron Technology, Inc.",United States,US,Technology
+NFLX,"Netflix, Inc.",United States,US,Communication Services
+NVDA,NVIDIA Corporation,United States,US,Technology
+PCAR,PACCAR Inc,United States,US,Industrials
+PEP,"PepsiCo, Inc.",United States,US,Consumer Defensive
+QCOM,QUALCOMM Incorporated,United States,US,Technology
+REGN,"Regeneron Pharmaceuticals, Inc.",United States,US,Healthcare
+SNPS,"Synopsys, Inc.",United States,US,Technology
+TEAM,Atlassian Corporation,Australia,AU,Technology
+TMUS,"T-Mobile US, Inc.",United States,US,Communication Services
+TSLA,"Tesla, Inc.",United States,US,Consumer Cyclical
+TXN,Texas Instruments Incorporated,United States,US,Technology
+VRTX,Vertex Pharmaceuticals Incorporated,United States,US,Healthcare
+WDAY,"Workday, Inc.",United States,US,Technology
+WMT,Walmart Inc.,United States,US,Consumer Defensive
