@@ -1,6 +1,0 @@
-Symbol,commodity,ticker_commodity,descricao,direcao,impacto
-HAIN,Soja,ZS=F,Soybean Futures,positiva,Preço da Soybean Futures positivo influencia o preço da ação na mesma direção
-HAIN,Milho,ZC=F,Corn Futures,positiva,Preço da Corn Futures positivo influencia o preço da ação na mesma direção
-HAIN,Trigo,ZW=F,Wheat Futures,positiva,Preço da Wheat Futures positivo influencia o preço da ação na mesma direção
-HAIN,Cafe,KC=F,Coffee Futures,positiva,Preço da Coffee Futures positivo influencia o preço da ação na mesma direção
-HAIN,Acucar,SB=F,Sugar Futures,positiva,Preço da Sugar Futures positivo influencia o preço da ação na mesma direção

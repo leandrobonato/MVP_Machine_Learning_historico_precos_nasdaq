@@ -1,5 +1,0 @@
-Symbol,commodity,ticker_commodity,descricao,direcao,impacto
-METCZ,Ouro,GC=F,Gold Futures,positiva,Preço da Gold Futures influencia indiretamente o preço da ação
-METCZ,Prata,SI=F,Silver Futures,positiva,Preço da Silver Futures influencia indiretamente o preço da ação
-METCZ,Petroleo_WTI,CL=F,Crude Oil WTI Futures,positiva,Preço da Crude Oil WTI Futures influencia indiretamente o preço da ação
-METCZ,Cobre,HG=F,Copper Futures,positiva,Preço da Copper Futures influencia indiretamente o preço da ação

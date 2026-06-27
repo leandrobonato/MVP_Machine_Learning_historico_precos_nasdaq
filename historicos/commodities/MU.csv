@@ -2,5 +2,3 @@ Symbol,commodity,ticker_commodity,descricao,direcao,impacto
 MU,Cobre,HG=F,Copper Futures,positiva,Preço da Copper Futures positivo influencia o preço da ação na mesma direção
 MU,Ouro,GC=F,Gold Futures,positiva,Preço da Gold Futures positivo influencia o preço da ação na mesma direção
 MU,Prata,SI=F,Silver Futures,positiva,Preço da Silver Futures positivo influencia o preço da ação na mesma direção
-MU,Paladio,PA=F,Palladium Futures,positiva,Preço da Palladium Futures positivo influencia o preço da ação na mesma direção
-MU,Platina,PL=F,Platinum Futures,positiva,Preço da Platinum Futures positivo influencia o preço da ação na mesma direção

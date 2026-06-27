@@ -1,3 +1,5 @@
 Symbol,commodity,ticker_commodity,descricao,direcao,impacto
-ABNB,Algodao,CT=F,Cotton Futures,positiva,Preço da Cotton Futures positivo influencia o preço da ação na mesma direção
-ABNB,Madeira,LBS=F,Lumber Futures,positiva,Preço da Lumber Futures positivo influencia o preço da ação na mesma direção
+ABNB,Ouro,GC=F,Gold Futures,positiva,Preço da Gold Futures influencia indiretamente o preço da ação
+ABNB,Prata,SI=F,Silver Futures,positiva,Preço da Silver Futures influencia indiretamente o preço da ação
+ABNB,Petroleo_WTI,CL=F,Crude Oil WTI Futures,positiva,Preço da Crude Oil WTI Futures influencia indiretamente o preço da ação
+ABNB,Cobre,HG=F,Copper Futures,positiva,Preço da Copper Futures influencia indiretamente o preço da ação

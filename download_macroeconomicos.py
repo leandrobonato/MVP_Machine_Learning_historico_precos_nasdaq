@@ -20,7 +20,7 @@ warnings.filterwarnings('ignore')
 # CONFIGURAÇÕES
 # ============================================
 
-start_date = '2000-01-01'
+start_date = '2015-01-01'
 end_date = datetime.now().strftime('%Y-%m-%d')
 
 # ============================================
@@ -29,9 +29,7 @@ end_date = datetime.now().strftime('%Y-%m-%d')
 
 COMMODITIES = {
     'GC=F': 'Ouro',
-    'SI=F': 'Prata',
-    'PL=F': 'Platina',
-    'PA=F': 'Paladio',
+    'SI=F': 'Prata', 
     'CL=F': 'Petroleo_WTI',
     'BZ=F': 'Petroleo_Brent',
     'NG=F': 'Gas_Natural',
@@ -39,29 +37,17 @@ COMMODITIES = {
     'ZC=F': 'Milho',
     'ZW=F': 'Trigo',
     'ZS=F': 'Soja',
-    'KC=F': 'Cafe',
-    'CT=F': 'Algodao',
+    'KC=F': 'Cafe', 
     'SB=F': 'Acucar',
 }
 
 CAMBIO = {
     'EURUSD=X': 'EURUSD',
-    'GBPUSD=X': 'GBPUSD',
-    'JPYUSD=X': 'JPYUSD',
-    'AUDUSD=X': 'AUDUSD',
-    'CADUSD=X': 'CADUSD',
-    'CHFUSD=X': 'CHFUSD',
-    'NZDUSD=X': 'NZDUSD',
-    'MXNUSD=X': 'MXNUSD',
-    'BRLUSD=X': 'BRLUSD',
-    'CNYUSD=X': 'CNYUSD',
+    'BRLUSD=X': 'BRLUSD'
 }
 
 TAXAS_JUROS = {
-    '^TNX': 'Treasury_10Y',
-    '^FVX': 'Treasury_5Y',
     '^IRX': 'Treasury_3M',
-    '^TYX': 'Treasury_30Y',
 }
 
 INDICES = {

@@ -1,5 +1,0 @@
-Symbol,commodity,ticker_commodity,descricao,direcao,impacto
-ISTB,Ouro,GC=F,Gold Futures,positiva,Preço da Gold Futures influencia indiretamente o preço da ação
-ISTB,Prata,SI=F,Silver Futures,positiva,Preço da Silver Futures influencia indiretamente o preço da ação
-ISTB,Petroleo_WTI,CL=F,Crude Oil WTI Futures,positiva,Preço da Crude Oil WTI Futures influencia indiretamente o preço da ação
-ISTB,Cobre,HG=F,Copper Futures,positiva,Preço da Copper Futures influencia indiretamente o preço da ação

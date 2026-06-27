@@ -59,7 +59,19 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 # ============================================
-# Mapeamento de Commodities
+# LISTA DE SÍMBOLOS QUE QUEREMOS CARREGAR
+# ============================================
+
+simbolos_usados = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'MRVL',
+                   'PEP', 'NFLX', 'AMD', 'GOOG', 'AVGO', 'META', 'MU', 'WMT',
+                   'COST', 'ADBE', 'CMCSA', 'CSCO', 'INTC', 'QCOM', 'TXN',
+                   'AMGN', 'ISRG', 'TMUS', 'HON', 'BKNG', 'AMAT', 'LRCX', 'TEAM',
+                   'GILD', 'CSX', 'ADI', 'VRTX', 'ADP', 'REGN', 'KLAC', 'MELI',
+                   'MPWR', 'PCAR', 'SNPS', 'KDP', 'CDNS', 'MRNA', 'ABNB', 'WDAY', 
+                   'CHTR', 'LIN', 'KHC']
+
+# ============================================
+# MApeamento de Commodities
 # ============================================
 
 # Lista completa de commodities com tickers, nomes e descrições
@@ -73,21 +85,11 @@ COMMODITIES_LIST = [
     {'ticker': 'ZW=F', 'nome': 'Trigo', 'descricao': 'Wheat Futures'},
     {'ticker': 'ZS=F', 'nome': 'Soja', 'descricao': 'Soybean Futures'},
     {'ticker': 'KC=F', 'nome': 'Cafe', 'descricao': 'Coffee Futures'},
-    {'ticker': 'CT=F', 'nome': 'Algodao', 'descricao': 'Cotton Futures'},
     {'ticker': 'SB=F', 'nome': 'Acucar', 'descricao': 'Sugar Futures'},
-    {'ticker': 'NG=F', 'nome': 'Gas_Natural', 'descricao': 'Natural Gas Futures'},
-    {'ticker': 'PL=F', 'nome': 'Platina', 'descricao': 'Platinum Futures'},
-    {'ticker': 'PA=F', 'nome': 'Paladio', 'descricao': 'Palladium Futures'},
-    {'ticker': 'LBS=F', 'nome': 'Madeira', 'descricao': 'Lumber Futures'},
-    {'ticker': 'LB=F', 'nome': 'Chumbo', 'descricao': 'Lead Futures'},
-    {'ticker': 'NI=F', 'nome': 'Niquel', 'descricao': 'Nickel Futures'},
-    {'ticker': 'ZN=F', 'nome': 'Zinco', 'descricao': 'Zinc Futures'},
-    {'ticker': 'ALI=F', 'nome': 'Aluminio', 'descricao': 'Aluminum Futures'},
+    {'ticker': 'NG=F', 'nome': 'Gas_Natural', 'descricao': 'Natural Gas Futures'}
 ]
 
 # Mapeamento de setores para commodities com direção de influência
-# Formato: 'Setor': [('commodity_nome', 'direcao'), ...]
-# direcao: 'positiva' (preço da commodity sobe -> ação sobe) ou 'negativa' (preço da commodity sobe -> ação desce)
 SECTOR_COMMODITY_MAP = {
     'Energy': [
         ('Petroleo_WTI', 'positiva'),
@@ -100,21 +102,12 @@ SECTOR_COMMODITY_MAP = {
         ('Gas_Natural', 'positiva'),
     ],
     'Basic Materials': [
-        ('Cobre', 'positiva'),
-        ('Aluminio', 'positiva'),
-        ('Zinco', 'positiva'),
-        ('Niquel', 'positiva'),
-        ('Chumbo', 'positiva'),
+        ('Cobre', 'positiva')
     ],
     'Metals & Mining': [
         ('Ouro', 'positiva'),
         ('Prata', 'positiva'),
-        ('Cobre', 'positiva'),
-        ('Aluminio', 'positiva'),
-        ('Zinco', 'positiva'),
-        ('Niquel', 'positiva'),
-        ('Platina', 'positiva'),
-        ('Paladio', 'positiva'),
+        ('Cobre', 'positiva')
     ],
     'Gold': [
         ('Ouro', 'positiva'),
@@ -125,8 +118,7 @@ SECTOR_COMMODITY_MAP = {
         ('Milho', 'positiva'),
         ('Trigo', 'positiva'),
         ('Cafe', 'positiva'),
-        ('Acucar', 'positiva'),
-        ('Algodao', 'positiva'),
+        ('Acucar', 'positiva')
     ],
     'Consumer Defensive': [
         ('Soja', 'positiva'),
@@ -135,50 +127,21 @@ SECTOR_COMMODITY_MAP = {
         ('Cafe', 'positiva'),
         ('Acucar', 'positiva'),
     ],
-    'Consumer Cyclical': [
-        ('Algodao', 'positiva'),
-        ('Madeira', 'positiva'),
-    ],
     'Technology': [
         ('Cobre', 'positiva'),
         ('Ouro', 'positiva'),
-        ('Prata', 'positiva'),
-        ('Paladio', 'positiva'),
-        ('Platina', 'positiva'),
+        ('Prata', 'positiva')
     ],
     'Semiconductors': [
         ('Cobre', 'positiva'),
         ('Ouro', 'positiva'),
-        ('Prata', 'positiva'),
-        ('Paladio', 'positiva'),
-        ('Platina', 'positiva'),
-    ],
-    'Automotive': [
-        ('Aluminio', 'positiva'),
-        ('Aco', 'positiva'),
-    ],
-    'Aerospace & Defense': [
-        ('Aluminio', 'positiva'),
-        ('Titanio', 'positiva'),
-    ],
-    'Real Estate': [
-        ('Aco', 'positiva'),
-        ('Cimento', 'positiva'),
-    ],
-    'Construction': [
-        ('Aco', 'positiva'),
-        ('Cimento', 'positiva'),
-        ('Madeira', 'positiva'),
+        ('Prata', 'positiva')
     ],
     'Utilities': [
-        ('Gas_Natural', 'positiva'),
-        ('Carvão', 'positiva'),
+        ('Gas_Natural', 'positiva')
     ],
     'Renewable Energy': [
-        ('Cobre', 'positiva'),
-        ('Aluminio', 'positiva'),
-        ('Lítio', 'positiva'),
-        ('Cobalto', 'positiva'),
+        ('Cobre', 'positiva')
     ],
     'Airlines': [
         ('Petroleo_WTI', 'negativa'),
@@ -743,10 +706,56 @@ print("=" * 70)
 for nome, pasta in PASTAS.items():
     print(f"   ✅ {pasta}/")
 
-# Ler símbolos
-data = pd.read_csv("data/nasdaq-listed-symbols.csv")
-symbols = data['Symbol'].tolist() if 'Symbol' in data.columns else data.iloc[:, 0].tolist()
-#symbols = [s for s in symbols if s == 'AAPL'] #Debug
+# ============================================
+# CARREGAR SÍMBOLOS SELECIONADOS
+# ============================================
+
+# Carregar o CSV completo
+try:
+    data = pd.read_csv("data/nasdaq-listed-symbols.csv")
+    print(f"\n✅ Arquivo carregado: {data.shape[0]} linhas, {data.shape[1]} colunas")
+except FileNotFoundError:
+    print("\n❌ Arquivo 'data/nasdaq-listed-symbols.csv' não encontrado!")
+    print("   Verifique o caminho do arquivo.")
+    exit()
+
+# Verificar qual coluna contém os símbolos
+coluna_simbolos = None
+for col in data.columns:
+    if col.upper() in ['SYMBOL', 'TICKER', 'SECURITY ID', 'Symbol']:
+        coluna_simbolos = col
+        break
+
+# Se não encontrou nenhuma das colunas padrão, usa a primeira coluna
+if coluna_simbolos is None:
+    coluna_simbolos = data.columns[0]
+    print(f"ℹ️ Usando coluna '{coluna_simbolos}' como coluna de símbolos")
+
+# Filtrar apenas os símbolos que estão na lista simbolos_usados
+data_filtrado = data[data[coluna_simbolos].isin(simbolos_usados)]
+
+# Extrair a lista de símbolos encontrados
+symbols = data_filtrado[coluna_simbolos].tolist()
+
+# Mostrar quantos foram encontrados
+print(f"\n📊 Símbolos encontrados: {len(symbols)}/{len(simbolos_usados)}")
+
+# Verificar quais símbolos da lista não foram encontrados
+simbolos_nao_encontrados = set(simbolos_usados) - set(symbols)
+if simbolos_nao_encontrados:
+    print(f"\n⚠️ Símbolos NÃO encontrados no arquivo:")
+    for s in sorted(simbolos_nao_encontrados):
+        print(f"   ❌ {s}")
+else:
+    print(f"\n✅ TODOS os {len(simbolos_usados)} símbolos foram encontrados!")
+
+# Verificar se algum símbolo foi encontrado
+if not symbols:
+    print("\n❌ Nenhum símbolo encontrado! Verifique a lista e o arquivo.")
+    exit()
+
+print(f"\n📋 Símbolos que serão processados:")
+print(f"   {symbols}")
 
 print("\n" + "=" * 70)
 print("📥 DOWNLOAD COMPLETO")

@@ -174,7 +174,7 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2005-07-28,Alta,Alta,3.93,-0.34,0
 2005-07-29,Baixa,Alta,3.76,-0.27,0
 2005-08-01,Baixa,Alta,3.44,-0.13,0
-2005-08-02,Baixa,Alta,3.28,0.63,1
+2005-08-02,Baixa,Alta,3.28,0.60,1
 2005-08-03,Baixa,Alta,3.12,-0.67,0
 2005-08-04,Baixa,Baixa,2.83,-0.83,0
 2005-08-05,Baixa,Baixa,2.41,-0.34,0
@@ -3341,7 +3341,7 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2018-02-27,Alta,Alta,0.52,-0.46,0
 2018-02-28,Baixa,Alta,0.53,-0.73,0
 2018-03-01,Baixa,Baixa,0.51,-0.46,0
-2018-03-02,Alta,Alta,0.49,0.78,1
+2018-03-02,Alta,Alta,0.49,0.77,1
 2018-03-05,Alta,Alta,0.45,0.46,2
 2018-03-06,Alta,Alta,0.39,-0.12,0
 2018-03-07,Alta,Alta,0.38,0.55,1
@@ -3372,7 +3372,7 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2018-04-12,Alta,Alta,-0.41,0.60,3
 2018-04-13,Alta,Alta,-0.24,-0.61,0
 2018-04-16,Alta,Alta,-0.10,0.20,1
-2018-04-17,Alta,Alta,0.17,0.56,2
+2018-04-17,Alta,Alta,0.16,0.56,2
 2018-04-18,Alta,Alta,0.52,-0.21,0
 2018-04-19,Baixa,Alta,0.59,-0.73,0
 2018-04-20,Baixa,Alta,0.73,-0.20,0
@@ -3382,7 +3382,7 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2018-04-26,Alta,Alta,0.94,0.23,2
 2018-04-27,Alta,Alta,0.92,-0.68,0
 2018-04-30,Baixa,Baixa,0.67,-0.58,0
-2018-05-01,Baixa,Alta,0.55,-0.12,0
+2018-05-01,Baixa,Alta,0.56,-0.12,0
 2018-05-02,Baixa,Baixa,0.37,-0.70,0
 2018-05-03,Alta,Alta,0.23,0.70,1
 2018-05-04,Alta,Alta,0.22,0.81,2
@@ -3567,7 +3567,7 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2019-01-22,Baixa,Alta,0.01,-0.59,0
 2019-01-23,Baixa,Baixa,-0.17,-0.37,0
 2019-01-24,Alta,Alta,-0.16,0.92,1
-2019-01-25,Alta,Alta,-0.04,0.29,2
+2019-01-25,Alta,Alta,-0.04,0.30,2
 2019-01-28,Alta,Alta,0.08,0.04,3
 2019-01-29,Alta,Alta,0.22,-0.50,0
 2019-01-30,Alta,Alta,0.40,-0.23,0
@@ -3611,12 +3611,12 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2019-03-26,Baixa,Alta,1.54,-0.07,0
 2019-03-27,Baixa,Alta,1.39,-0.61,0
 2019-03-28,Baixa,Alta,1.16,-0.37,0
-2019-03-29,Baixa,Alta,1.10,-0.17,0
+2019-03-29,Baixa,Alta,1.11,-0.17,0
 2019-04-01,Alta,Alta,1.14,0.83,1
 2019-04-02,Alta,Alta,1.11,-0.67,0
 2019-04-03,Alta,Alta,1.25,0.84,1
 2019-04-04,Alta,Alta,1.43,-0.31,0
-2019-04-05,Alta,Alta,1.49,0.07,1
+2019-04-05,Alta,Alta,1.48,0.07,1
 2019-04-08,Alta,Alta,1.43,0.49,2
 2019-04-09,Alta,Alta,1.50,0.13,3
 2019-04-10,Alta,Alta,1.47,0.78,4
@@ -3904,7 +3904,7 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2020-05-22,Alta,Alta,2.78,-0.19,0
 2020-05-26,Alta,Alta,2.71,-0.59,0
 2020-05-27,Alta,Alta,2.93,0.35,1
-2020-05-28,Alta,Alta,2.91,-0.52,0
+2020-05-28,Alta,Alta,2.92,-0.52,0
 2020-05-29,Alta,Alta,3.14,0.36,1
 2020-06-01,Alta,Alta,3.19,0.70,2
 2020-06-02,Alta,Alta,3.74,0.67,3
@@ -3949,7 +3949,7 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2020-07-28,Baixa,Alta,2.04,-0.93,0
 2020-07-29,Alta,Alta,2.22,0.78,1
 2020-07-30,Alta,Alta,2.49,0.80,2
-2020-07-31,Alta,Alta,2.57,-0.58,0
+2020-07-31,Alta,Alta,2.58,-0.58,0
 2020-08-03,Alta,Alta,2.68,-0.04,0
 2020-08-04,Alta,Alta,2.83,0.97,1
 2020-08-05,Alta,Alta,2.94,0.13,2
@@ -5429,3 +5429,6 @@ Date,Tendencia_7d,Tendencia_50d,Forca_Tendencia,Forca_Movimento,Velas_Alta_Conse
 2026-06-18,Alta,Alta,2.41,0.53,1
 2026-06-22,Baixa,Baixa,2.06,-0.62,0
 2026-06-23,Baixa,Baixa,1.44,-0.23,0
+2026-06-24,Baixa,Baixa,1.10,0.22,1
+2026-06-25,Baixa,Baixa,0.86,-0.42,0
+2026-06-26,Baixa,Baixa,0.48,-0.61,0
